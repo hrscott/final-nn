@@ -1,5 +1,7 @@
 # Final project: neural network
 
+[![NN module install + unit testing](https://github.com/hrscott/final-nn/actions/workflows/python-package.yml/badge.svg)](https://github.com/hrscott/final-nn/actions/workflows/python-package.yml)
+
 ## Overview
 
 In this assignment, you will implement a neural network class from (almost) scratch. You will then apply your class to create both:
