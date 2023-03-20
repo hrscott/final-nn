@@ -20,7 +20,28 @@ def sample_seqs(seqs: List[str], labels: List[bool]) -> Tuple[List[str], List[bo
         sampled_labels: List[bool]
             List of labels for the sampled sequences
     """
-    pass
+    pos_seqs = [seq for seq, label in zip(seqs, labels) if label]
+    neg_seqs = [seq for seq, label in zip(seqs, labels) if not label]
+    
+    # Calculate number of sequences to sample from each class
+    n_pos = len(pos_seqs)
+    n_neg = len(neg_seqs)
+    n_samples = min(n_pos, n_neg)
+    
+    # Sample sequences with replacement
+    pos_samples = np.random.choice(pos_seqs, n_samples, replace=True)
+    neg_samples = np.random.choice(neg_seqs, n_samples, replace=True)
+    
+    # Combine the sampled sequences and labels
+    sampled_seqs = list(pos_samples) + list(neg_samples)
+    sampled_labels = [True] * n_samples + [False] * n_samples
+    
+    # Shuffle the sequences and labels
+    shuffle_idx = np.random.permutation(len(sampled_seqs))
+    sampled_seqs = [sampled_seqs[i] for i in shuffle_idx]
+    sampled_labels = [sampled_labels[i] for i in shuffle_idx]
+    
+    return sampled_seqs, sampled_labels
 
 def one_hot_encode_seqs(seq_arr: List[str]) -> ArrayLike:
     """
@@ -41,4 +62,22 @@ def one_hot_encode_seqs(seq_arr: List[str]) -> ArrayLike:
                 G -> [0, 0, 0, 1]
             Then, AGA -> [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0].
     """
-    pass
+    # Define the one-hot encoding dictionary
+    encoding_dict = {'A': [1, 0, 0, 0], 'T': [0, 1, 0, 0], 'C': [0, 0, 1, 0], 'G': [0, 0, 0, 1]}
+
+    # Initialize an empty list to store the encodings
+    encodings = []
+
+    # Iterate over each sequence in seq_arr
+    for seq in seq_arr:
+        # Initialize an empty list to store the one-hot encoding of this sequence
+        encoding = []
+        # Iterate over each nucleotide in the sequence
+        for nt in seq:
+            # Append the one-hot encoding of this nucleotide to the encoding list
+            encoding += encoding_dict[nt]
+        # Append the encoding to the list of encodings
+        encodings.append(encoding)
+
+    # Convert the list of encodings to a NumPy array and return it
+    return np.array(encodings)
