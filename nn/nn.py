@@ -268,30 +268,6 @@ class NeuralNetwork:
             val_loss_history.append(val_loss)
             
         return train_loss_history, val_loss_history
-
-
-
-    def _get_mini_batches(self, X, y):
-        """
-    #    Generate mini-batches from the input data X and target data y.
-    #     """
-        assert X.shape[0] == y.shape[0]
-
-        # Shuffle indices to randomly select mini-batches
-        indices = np.arange(X.shape[0])
-        np.random.shuffle(indices)
-
-        mini_batches = []
-        for idx in range(0, X.shape[0], self._batch_size):
-            # Get the indices for the current mini-batch
-            batch_indices = indices[idx:idx+self._batch_size]
-            # Use the batch indices to select the corresponding rows from X and y
-            X_batch = X[batch_indices]
-            y_batch = y[batch_indices]
-            # Add the mini-batch to the list of mini-batches
-            mini_batches.append((X_batch, y_batch))
-
-        return mini_batches
     
 
     def predict(self, X: ArrayLike) -> ArrayLike:
