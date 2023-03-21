@@ -96,7 +96,7 @@ You will implement a multi-layer fully connected neural network using your `Neur
 
 Proper unit tests for:
 
-* `_single_forward` method (1 point)
+[X] `_single_forward` method (1 point)
 * `forward` method (1 point)
 * `_single_backprop` method (1 point)
 * `predict` method (1 point)
