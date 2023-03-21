@@ -4,6 +4,10 @@
 
 ## Overview
 
+I managed to mangle something in my NeuralNetwork class on account of a merge error and seem to be off in my data dimensions for my classifier train step by one transpose somewhere- on this account that portion of the final is incomplete, but everything else, including subsequent steps in my classifier workflow (which had worked earlier) is complete. 
+
+(added some hyper paramter optimization bells and whistles as well as mini batch generation for stochastic gradient descent in an attempt to wow you- hopefully you are still somewhat wowed by this even though my classifier is garbo...)
+
 In this assignment, you will implement a neural network class from (almost) scratch. You will then apply your class to create both:
 
 **(1) a simple 64x16x64 autoencoder.**
