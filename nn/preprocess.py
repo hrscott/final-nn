@@ -81,3 +81,64 @@ def one_hot_encode_seqs(seq_arr: List[str]) -> ArrayLike:
 
     # Convert the list of encodings to a NumPy array and return it
     return np.array(encodings)
+
+def process_negative_sequences(neg_seqs: List[str], target_length: int) -> List[str]:
+    """
+    This function processes longer negative sequences by cutting them into shorter sequences
+    of the same length as the positive sequences.
+
+    Args:
+        neg_seqs: List[str]
+            List of longer negative sequences.
+        target_length: int
+            The length of the shorter sequences to generate.
+
+    Returns:
+        processed_seqs: List[str]
+            List of processed negative sequences.
+    """
+    processed_seqs = []
+    for seq in neg_seqs:
+        for i in range(len(seq) - target_length + 1):
+            sub_seq = seq[i:i + target_length]
+            processed_seqs.append(sub_seq)
+    return processed_seqs
+
+
+def train_test_split_custom(X: ArrayLike, y: ArrayLike, test_size: float = 0.2, random_state: int = None) -> Tuple[ArrayLike, ArrayLike, ArrayLike, ArrayLike]:
+    """
+    This function splits the input dataset into training and validation sets.
+
+    Args:
+        X: ArrayLike
+            Input features.
+        y: ArrayLike
+            Labels.
+        test_size: float, optional
+            Proportion of the dataset to include in the validation set.
+        random_state: int, optional
+            Random seed for reproducibility.
+
+    Returns:
+        X_train: ArrayLike
+            Training features.
+        X_val: ArrayLike
+            Validation features.
+        y_train: ArrayLike
+            Training labels.
+        y_val: ArrayLike
+            Validation labels.
+    """
+    if random_state is not None:
+        np.random.seed(random_state)
+
+    n_samples = len(X)
+    shuffle_idx = np.random.permutation(n_samples)
+    split_idx = int(n_samples * (1 - test_size))
+
+    X_train = X[shuffle_idx[:split_idx]]
+    X_val = X[shuffle_idx[split_idx:]]
+    y_train = y[shuffle_idx[:split_idx]]
+    y_val = y[shuffle_idx[split_idx:]]
+
+    return X_train, X_val, y_train, y_val
